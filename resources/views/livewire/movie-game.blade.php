@@ -29,6 +29,7 @@
                             <span class="text-yellow-500">★</span>
                             <span class="ml-1 font-semibold">{{ $leftMovie['vote_average'] ?? 'N/A' }}/10</span>
                         </div>
+                        <p class="text-gray-700 mb-2">Revenue: ${{ number_format($leftMovie['revenue'] ?? 0) }}</p>
                         <p class="text-gray-700">{{ $leftMovie['overview'] ?? 'No overview available.' }}</p>
                     </div>
                 </div>
@@ -53,6 +54,7 @@
                             <span class="text-yellow-500">★</span>
                             <span class="ml-1 font-semibold">{{ $rightMovie['vote_average'] ?? 'N/A' }}/10</span>
                         </div>
+                        <p class="text-gray-700 mb-2">Revenue: ${{ number_format($rightMovie['revenue'] ?? 0) }}</p>
                         <p class="text-gray-700">{{ $rightMovie['overview'] ?? 'No overview available.' }}</p>
                     </div>
                 </div>
