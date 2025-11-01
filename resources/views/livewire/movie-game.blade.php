@@ -56,6 +56,13 @@
                         </div>
                         <p class="text-gray-700 mb-2">Revenue: ${{ number_format($rightMovie['revenue'] ?? 0) }}</p>
                         <p class="text-gray-700">{{ $rightMovie['overview'] ?? 'No overview available.' }}</p>
+
+                        <button wire:click="lowerRevenue" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition duration-200">
+                            Lower Revenue
+                        </button>
+                        <button wire:click="higherRevenue" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition duration-200">
+                            Higher Revenue
+                        </button>
                     </div>
                 </div>
             </div>
