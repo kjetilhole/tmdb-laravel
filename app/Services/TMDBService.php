@@ -21,7 +21,7 @@ class TMDBService
         $params = $this->defaultParams();
 
         // Step 1: fetch total pages
-        $initial = Http::get(($this->baseUrl . 'discover/movie'), array_merge($params, ['page' => 1]));
+        $initial = Http::get(($this->baseUrl . '/discover/movie'), array_merge($params, ['page' => 1]));
         if(! $initial->successful()){
             return null;
         }
@@ -31,7 +31,7 @@ class TMDBService
         // Step 2: pick a random page and a random movie from that page 
         for($i = 0; $i < 5; $i++) {
             $page = rand(1, $totalPages);
-            $response = Http::get(($this->baseUrl . 'discover/movie'), array_merge($params, ['page' => $page]));
+            $response = Http::get(($this->baseUrl . '/discover/movie'), array_merge($params, ['page' => $page]));
 
             if(! $response?->successful()) {
                 continue;
@@ -56,7 +56,7 @@ class TMDBService
      * Get detailed information about a movie
      */
     public function getMovieDetails($movieId){
-        $response = Http::get(($this->baseUrl . 'movie/' . $movieId), [
+        $response = Http::get(($this->baseUrl . '/movie/' . $movieId), [
             'api_key' => $this->apiKey,
         ]);
 
