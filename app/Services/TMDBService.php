@@ -46,7 +46,10 @@ class TMDBService
             $details = $this->getMovieDetails($movie['id']);
 
             if($details){
-                return $details;
+                if($details['revenue'] > 0){
+                    return $details;
+                }
+                continue;
             }
         }
         return null;
@@ -77,6 +80,7 @@ class TMDBService
             'sort_by' => 'popularity.desc',
             'include_adult' => false,
             'vote_count.gte' => 1000,
+            'vote_average.gte' => 0.1,
         ];
     }
 }
