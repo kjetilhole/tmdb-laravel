@@ -19,32 +19,36 @@
                         :alt="leftMovie.title"
                         class="w-full h-96 object-cover"
                     />
-                    <div
-                        v-else
-                        class="w-full h-96 bg-gray-300 flex items-center justify-center"
-                    >
-                        <span class="text-gray-500">No Image Available</span>
-                    </div>
+                    <MovieCardSkeleton v-else show-image />
                 </div>
                 <div class="p-6">
-                    <h2 class="text-2xl font-bold mb-2">
-                        {{ leftMovie?.title || "Unknown Movie" }}
+                    <h2 v-if="leftMovie?.title" class="text-2xl font-bold mb-2">
+                        {{ leftMovie.title }}
                     </h2>
-                    <p class="text-gray-600 mb-2">
-                        {{ leftMovie?.release_date || "Unknown Year" }}
+                    <MovieCardSkeleton v-else show-title title-width="80%" />
+                    
+                    <p v-if="leftMovie?.release_date" class="text-gray-600 mb-2">
+                        {{ formatDateToYear(leftMovie.release_date) }}
                     </p>
-                    <div class="flex items-center mb-3">
+                    <MovieCardSkeleton v-else show-text text-width="30%" />
+                    
+                    <div v-if="leftMovie?.vote_average !== undefined && leftMovie?.vote_average !== null" class="flex items-center mb-3">
                         <span class="text-yellow-500">★</span>
-                        <span class="ml-1 font-semibold"
-                            >{{ leftMovie?.vote_average || "N/A" }}/10</span
-                        >
+                        <span class="ml-1 font-semibold">
+                            {{ roundToDecimals(leftMovie.vote_average, 1) }}/10
+                        </span>
                     </div>
-                    <p class="text-gray-700 mb-2">
-                        Revenue: ${{ formatNumber(leftMovie?.revenue || 0) }}
+                    <MovieCardSkeleton v-else show-rating />
+                    
+                    <p v-if="leftMovie?.revenue" class="text-gray-700 mb-2">
+                        Revenue: ${{ formatNumber(leftMovie.revenue) }}
                     </p>
-                    <p class="text-gray-700">
-                        {{ leftMovie?.overview || "No overview available." }}
+                    <MovieCardSkeleton v-else show-text text-width="50%" />
+                    
+                    <p v-if="leftMovie?.overview" class="text-gray-700">
+                        {{ leftMovie.overview }}
                     </p>
+                    <MovieCardSkeleton v-else show-overview />
                 </div>
             </div>
 
@@ -57,32 +61,51 @@
                         :alt="rightMovie.title"
                         class="w-full h-96 object-cover"
                     />
-                    <div
-                        v-else
-                        class="w-full h-96 bg-gray-300 flex items-center justify-center"
-                    >
-                        <span class="text-gray-500">No Image Available</span>
-                    </div>
+                    <MovieCardSkeleton v-else show-image />
                 </div>
                 <div class="p-6">
-                    <h2 class="text-2xl font-bold mb-2">
-                        {{ rightMovie?.title || "Unknown Movie" }}
+                    <h2 v-if="rightMovie?.title" class="text-2xl font-bold mb-2">
+                        {{ rightMovie.title }}
                     </h2>
-                    <p class="text-gray-600 mb-2">
-                        {{ rightMovie?.release_date || "Unknown Year" }}
+                    <MovieCardSkeleton v-else show-title title-width="80%" />
+                    
+                    <p v-if="rightMovie?.release_date" class="text-gray-600 mb-2">
+                        {{ formatDateToYear(rightMovie.release_date) }}
                     </p>
-                    <div class="flex items-center mb-3">
+                    <MovieCardSkeleton v-else show-text text-width="30%" />
+                    
+                    <div v-if="rightMovie?.vote_average !== undefined && rightMovie?.vote_average !== null" class="flex items-center mb-3">
                         <span class="text-yellow-500">★</span>
-                        <span class="ml-1 font-semibold"
-                            >{{ rightMovie?.vote_average || "N/A" }}/10</span
-                        >
+                        <span class="ml-1 font-semibold">
+                            {{ roundToDecimals(rightMovie.vote_average, 1) }}/10
+                        </span>
                     </div>
-                    <p class="text-gray-700 mb-2">
-                        Revenue: ${{ formatNumber(rightMovie?.revenue || 0) }}
+                    <MovieCardSkeleton v-else show-rating />
+                    
+                    <p v-if="rightMovie?.revenue" class="text-gray-700 mb-2">
+                        Revenue: ${{ formatNumber(rightMovie.revenue) }}
                     </p>
-                    <p class="text-gray-700">
-                        {{ rightMovie?.overview || "No overview available." }}
+                    <MovieCardSkeleton v-else show-text text-width="50%" />
+                    
+                    <p v-if="rightMovie?.overview" class="text-gray-700 mb-4">
+                        {{ rightMovie.overview }}
                     </p>
+                    <MovieCardSkeleton v-else show-overview />
+                    
+                    <div v-if="rightMovie" class="flex gap-3 mt-4">
+                        <button
+                            @click="guess('lower')"
+                            class="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-bold py-3 px-6 rounded-lg transition duration-200"
+                        >
+                            Lower Revenue
+                        </button>
+                        <button
+                            @click="guess('higher')"
+                            class="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-bold py-3 px-6 rounded-lg transition duration-200"
+                        >
+                            Higher Revenue
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -90,56 +113,32 @@
         <!-- Swap Button -->
         <div class="flex justify-center mt-8">
             <button
-                @click="swapMovies"
+                @click="swapRightMovie"
                 :disabled="loading"
                 class="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-bold py-3 px-6 rounded-lg transition duration-200"
             >
-                Swap Movies
+                Swap Right Movie
             </button>
         </div>
     </div>
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted } from "vue";
+import { useMovieGame } from "../composables/useMovieGame.js";
+import { formatNumber, formatDateToYear, roundToDecimals } from "../utils/formatters.js";
+import MovieCardSkeleton from "./MovieCardSkeleton.vue";
 
-const leftMovie = ref(null);
-const rightMovie = ref(null);
-const loading = ref(false);
-
-const fetchRandomMovie = async () => {
-    try {
-        const response = await fetch("/api/random-movie");
-        if (!response.ok) {
-            throw new Error("Failed to fetch movie");
-        }
-        return await response.json();
-    } catch (error) {
-        console.error("Error fetching movie:", error);
-        return null;
-    }
-};
-
-const loadMovies = async () => {
-    loading.value = true;
-    const [movie1, movie2] = await Promise.all([
-        fetchRandomMovie(),
-        fetchRandomMovie(),
-    ]);
-    leftMovie.value = movie1;
-    rightMovie.value = movie2;
-    loading.value = false;
-};
-
-const swapMovies = () => {
-    const temp = leftMovie.value;
-    leftMovie.value = rightMovie.value;
-    rightMovie.value = temp;
-};
-
-const formatNumber = (num) => {
-    return new Intl.NumberFormat("en-US").format(num);
-};
+const {
+    leftMovie,
+    rightMovie,
+    loading,
+    correctGuesses,
+    gameOver,
+    guess,
+    loadMovies,
+    swapRightMovie,
+} = useMovieGame();
 
 onMounted(() => {
     loadMovies();
