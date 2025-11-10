@@ -14,6 +14,95 @@
 }
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --color-graybase-100: #bbb9c7;
+    --color-graybase-200: #747180;
+    --color-graybase-300: #555261;
+    --color-graybase-400: #403d4d;
+    --color-graybase-500: #312f3d;
+    --color-graybase-600: #282633;
+    --color-graybase-700: #1c1a24;
+    --color-graybase-800: #100f14;
+    --color-graybase-700-opacity-60: rgba(28, 26, 36, 0.6);
+    --color-graybase-900-opacity-40: rgba(0, 0, 0, 0.4);
+    --color-graybase-900-opacity-60: rgba(0, 0, 0, 0.6);
+    --color-purple-100: #edeeff;
+    --color-purple-200: #ccd2ff;
+    --color-purple-200-opacity-8: rgba(204, 210, 255, 0.08);
+    --color-purple-300: #b7a7ff;
+    --color-purple-400: #9f8fff;
+    --color-purple-400-opacity-10: rgba(159, 143, 255, 0.102);
+    --color-purple-400-opacity-20: rgba(159, 143, 255, 0.2);
+    --color-purple-500: #806cf5;
+    --color-purple-500-opacity-50: rgba(128, 108, 245, 0.5);
+    --color-white-100: #fff;
+    --color-white-100-opacity-50: rgb(255 255 255 / 50%);
+    --color-white-100-opacity-30: rgb(255 255 255 / 30%);
+    --color-white-100-opacity-10: rgb(255 255 255 / 10%);
+    --color-pink-200: #e5d0e7;
+    --color-pink-300: #d9b4dc;
+    --color-pink-400: #cf7ed6;
+    --color-pink-400-opacity-10: rgba(207, 126, 214, 0.102);
+    --color-pink-400-opacity-20: rgba(207, 126, 214, 0.2);
+    --color-pink-500: #c85cd1;
+    --color-pink-bright: #ff3ec6;
+    --color-accent-red-400: #ff8095;
+    --color-accent-red-400-opacity-10: rgba(255, 128, 149, 0.102);
+    --color-accent-red-500: #f05f75;
+    --color-accent-yellow-400: #fac343;
+    --color-accent-yellow-400-opacity-10: rgba(250, 195, 67, 0.102);
+    --color-accent-yellow-500: #faa643;
+    --color-accent-green-400: #5bc27a;
+    --color-accent-green-400-opacity-10: rgba(91, 194, 122, 0.102);
+    --color-accent-green-400-opacity-40: #2a533b;
+    --color-accent-green-500: #47ae66;
+    --color-accent-blue-500: #5ac3c5;
+    --color-accent-blue-500-opacity-10: rgba(90, 195, 197, 0.102);
+    --color-functional-yellow: #4a443d;
+    --color-functional-green: #3d4442;
+    --color-shape-red-200-opacity-10: rgb(220 110 111 / 10%);
+    --color-shape-yellow-100-opacity-10: rgb(255 193 68 / 10%);
+    --color-shape-green-100-opacity-10: rgb(123 195 119 / 10%);
+    --color-shape-blue-100-opacity-10: rgb(90 195 197 / 10%);
+    --color-shape-purple-400-opacity-10: rgb(142 121 255 / 10%);
+    --color-shape-pink-100-opacity-10: rgb(212 95 147 / 10%);
+    --color-steam-stattrak: #e5864e;
+    --color-steam-star-stattrak: #9f6cd1;
+    --color-steam-souvenir: gold;
+    --color-float-factory-new: #3d818f;
+    --color-float-minimal-wear: #83b135;
+    --color-float-field-tested: #dfc04a;
+    --color-float-wellworn: #ef8641;
+    --color-float-battle-scarred: #eb5757;
+    --color-rarity-common: #b0c3d9;
+    --color-rarity-uncommon: #5e98d9;
+    --color-rarity-mythical: #a574ff;
+    --color-rarity-rare: #5169f7;
+    --color-rarity-immortal: #e4ae39;
+    --color-rarity-legendary: #e050f0;
+    --color-rarity-arcana: #ade55c;
+    --color-rarity-ancient: #f26767;
+    --color-quality-standart: #d2d2d2;
+    --color-quality-inscribed: #cf6a32;
+    --color-quality-auspicious: #32cd32;
+    --color-quality-genuine: #4d7455;
+    --color-quality-heroic: #8650ac;
+    --color-quality-autographed: #ade55c;
+    --color-quality-frozen: #4682b4;
+    --color-quality-cursed: #8650ac;
+    --color-quality-base: #b2b2b2;
+    --color-quality-corrupted: brown;
+    --color-quality-infused: #8847ff;
+    --color-bright-mint: #26ff85;
+}
+
+@theme inline {
+    --color-tag-green: var(--color-functional-green);
+    --color-tag-yellow: var(--color-functional-yellow);
+    --color-accent-green-100: var(--color-accent-green-400);
+    --color-accent-green-200: var(--color-accent-green-500);
+    --color-accent-blue-100: var(--color-accent-blue-500);
+    --color-accent-red-100: var(--color-accent-red-400);
+    --color-accent-red-200: var(--color-accent-red-500);
+    --color-accent-yellow-100: var(--color-accent-yellow-400);
+    --color-pink-100: var(--color-pink-500);
 }
